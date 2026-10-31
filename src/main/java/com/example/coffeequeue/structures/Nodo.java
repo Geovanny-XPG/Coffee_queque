@@ -3,7 +3,7 @@ package com.example.coffeequeue.structures;
 public class Nodo<T> {
     private T dato;
     private Nodo<T> siguiente;
-    // El constructor crea cuando introduxcamos la info
+    // El constructor crea cuando entre la info
     public Nodo(T dato) {
         this.dato = dato;
         this.siguiente = null; //Apunta null de momento
