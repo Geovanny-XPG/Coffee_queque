@@ -3,13 +3,14 @@ package com.example.coffeequeue.structures;
 public class Nodo<T> {
     private T dato;
     private Nodo<T> siguiente;
-    // El constructor crea cuando cambiemos la info
+    // El constructor crea cuando introduxcamos la info
     public Nodo(T dato) {
         this.dato = dato;
         this.siguiente = null; //Apunta null de momento
     }
 // Getters y Setters para leer y modificar datod
-    public T getDato() {
+    public T getDato()
+    {
         return dato;
     }
 
