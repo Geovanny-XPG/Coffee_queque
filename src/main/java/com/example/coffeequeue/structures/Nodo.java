@@ -8,7 +8,7 @@ public class Nodo<T> {
         this.dato = dato;
         this.siguiente = null; //Apunta null de momento
     }
-// Getters y Setters para leer y modificar los datos
+// Getters y Setters para leer y modificar datod
     public T getDato() {
         return dato;
     }
