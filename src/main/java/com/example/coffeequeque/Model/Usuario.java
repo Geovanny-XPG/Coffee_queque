@@ -37,7 +37,7 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-
+    // metodos
     public void login() {
         System.out.println("Has iniciado sesion");
     }
