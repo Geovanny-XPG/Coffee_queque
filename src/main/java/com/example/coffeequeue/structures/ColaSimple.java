@@ -1,3 +1,7 @@
+package com.example.coffeequeue.structures;
+
+import com.example.coffeequeue.structures.Nodo;
+
 public class ColaSimple<T> {
     private Nodo<T> frente;
     private Nodo<T> fin;

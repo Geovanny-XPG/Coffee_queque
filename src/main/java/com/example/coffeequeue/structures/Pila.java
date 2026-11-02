@@ -1,4 +1,4 @@
-
+package com.example.coffeequeue.structures;
 
 /**
  * Estructura de Datos Lineal: Pila (Stack)
