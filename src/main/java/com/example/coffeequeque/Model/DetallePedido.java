@@ -18,7 +18,7 @@ public class DetallePedido {
         this.notas = (notas != null) ? notas : "";
     }
     //Constructor alternativo sin las notas del pedido
-    public DetllePedido(Producto producto, int cantidad) {
+    public DetallePedido(Producto producto, int cantidad) {
         this(producto, cantidad, "");
     }
     // getters
@@ -62,7 +62,7 @@ public class DetallePedido {
 
     // metodos
     public void calcularSubtotal() {
-        return this.cantidad * this.precioUnitaario;
+        return this.cantidad * this.precioUnitario;
     }
     
 }
