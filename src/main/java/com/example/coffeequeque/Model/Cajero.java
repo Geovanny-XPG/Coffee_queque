@@ -1,7 +1,10 @@
 package com.example.coffeequeque.Model;
 
+import com.example.coffeequeue.structures.Lista;
+
 public class Cajero extends Usuario {
     private int numeroCaja;
+
     public Cajero(int id, String nom, String mail, String pass, int numCaja) {
         super(id, nom, mail, pass);
         this.numeroCaja = numCaja;
@@ -11,18 +14,30 @@ public class Cajero extends Usuario {
     public int getNumeroCaja() {
         return numeroCaja;
     }
+
     // setters
     public void setNumeroCaja(int numeroCaja) {
         this.numeroCaja = numeroCaja;
     }
+
     // metodos
-    public void cobrarPedido() {
-        System.out.println("Cobrando Pedido");
+    public void cobrarPedido(Pedido pedido) {
+        pedido.cambiarEstado(Pedido.estado.Cobrado);
+        System.out.println("Cajero " + getNombre() + " cobró el pedido #" + pedido.getIdPedido());
     }
-    public void despacharPedido() {
-        System.out.println("Despachando Pedido");
+
+    public void despacharPedido(Pedido pedido) {
+        pedido.cambiarEstado(Pedido.estado.Despachado);
+        System.out.println("Cajero " + getNombre() + " despachó el pedido #" + pedido.getIdPedido());
     }
-    public void deshacerCobro() {
-        System.out.println("Deshaciendo cobro");
+
+    public void deshacerPedido(Pedido pedido) {
+        pedido.cambiarEstado(Pedido.estado.Pendiente);
+        System.out.println("Cajero " + getNombre() + " deshizo el pedido #" + pedido.getIdPedido());
+    }
+
+    public void verInventario(Lista<Producto> listaProductos) {
+        System.out.println("--- INVENTARIO (Cajero " + getNombre() + ") ---");
+        listaProductos.mostrar();
     }
 }
