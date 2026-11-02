@@ -4,9 +4,10 @@ public class Producto {
     private int idProducto;
     private String nombre;
     private double precio;
+    private int stock;
     private boolean disponible;
 
-    public Producto(int idProducto, String nombre, double precio, boolean disponible) {
+    public Producto(int idProducto, String nombre, double precio, int stock, boolean disponible) {
         this.idProducto = idProducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -23,6 +24,8 @@ public class Producto {
     public double getPrecio() {
         return precio;
     }
+    public int getStock() {
+        return stock; }
     public boolean isDisponible() {
         return disponible;
     }
@@ -36,6 +39,9 @@ public class Producto {
     }
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     // metodos
