@@ -34,7 +34,7 @@ public class DetallePedido {
     public double getPrecioUnitario() {
         return precioUnitario;
     }
-    }
+
     public String getNotas() {
         return notas;
     }
