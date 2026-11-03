@@ -2,8 +2,8 @@ package com.example.coffeequeque.Model;
 
 public class Cliente extends Usuario {
     private String matricula;
-    public Cliente(int id, String nom, String mail, String pass, String matricula) {
-        super(id, nom, mail, pass);
+    public Cliente(int id, String nom, String mail, String pass, boolean log, String matricula) {
+        super(id, nom, mail, pass, log);
         this.matricula = matricula;
     }
 

@@ -5,8 +5,8 @@ import com.example.coffeequeue.structures.Lista;
 public class Cajero extends Usuario {
     private int numeroCaja;
 
-    public Cajero(int id, String nom, String mail, String pass, int numCaja) {
-        super(id, nom, mail, pass);
+    public Cajero(int id, String nom, String mail, String pass, boolean log, int numCaja) {
+        super(id, nom, mail, pass, log);
         this.numeroCaja = numCaja;
     }
 

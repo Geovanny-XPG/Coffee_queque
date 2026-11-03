@@ -2,8 +2,8 @@ package com.example.coffeequeque.Model;
 
 public class Administrador extends Usuario {
 
-    public Administrador(int id, String nom, String mail, String pass) {
-        super(id, nom, mail, pass);
+    public Administrador(int id, String nom, String mail, String pass, boolean log) {
+        super(id, nom, mail, pass, log);
     }
 
     // metodos
