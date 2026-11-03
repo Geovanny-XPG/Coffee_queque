@@ -48,20 +48,23 @@ public class Usuario {
     }
     // metodos
     public void login(String user, String pass) {
+        //El metodo recibe usuario y contraseña para verificar la existencia del usuario.
         if(this.correo.equals(user) && this.password.equals(pass)) {
-            this.log = true;
+            this.log = true; //Cambia el estado de sesion del usuario
             System.out.println("Usuario Logueado");
         }
-        else {
+        else { // Si los datos no son correctos, muestra un mensaje
             System.out.println("Datos de Acceso Incorrectos");
         }
     }
+
+
     public void logout() {
-        if(this.log) {
-            this.log = false;
+        if(this.log) { // Si hay una sesion activa
+            this.log = false; // Cambia el estado de sesion
             System.out.println("Sesión Terminada");
         }
-        else {
+        else { // Si no hay sesion activa muestra un mensaje
             System.out.println("No hay sesiones activas.");
         }
     }
