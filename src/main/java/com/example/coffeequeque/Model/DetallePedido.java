@@ -13,7 +13,7 @@ public class DetallePedido {
         }
         this.producto = producto;
         this.cantidad = cantidad;
-        this.precioUnitario = producto.getPrecio;
+        this.precioUnitario = producto.getPrecio();
         this.subtotal = calcularSubtotal();
         this.notas = (notas != null) ? notas : "";
     }
@@ -31,19 +31,17 @@ public class DetallePedido {
     public double getSubtotal() {
         return subtotal;
     }
-    public double getPrecioUnitario(); {
+    public double getPrecioUnitario() {
         return precioUnitario;
     }
-    public double getSubtotal(); {
-        return Subtotal;
     }
-    public String getNotas();{
+    public String getNotas() {
         return notas;
     }
     // setters
     public void setProducto(Producto producto) {
         this.producto = producto;
-        this.precioUnitario = producto.getprecio();
+        this.precioUnitario = producto.getPrecio();
         this.subtotal = calcularSubtotal();
     }
     public void setCantidad(int cantidad) {
@@ -51,7 +49,7 @@ public class DetallePedido {
             throw new IllegalArgumentException("La cantidad debe ser mayor a cero.");
         }
         this.cantidad = cantidad;
-        this subtotal = calcularSubtotal();
+        this.subtotal = calcularSubtotal();
     }
     public void setSubtotal(double subtotal) {
         this.subtotal = subtotal;
@@ -61,7 +59,7 @@ public class DetallePedido {
     }
 
     // metodos
-    public void calcularSubtotal() {
+    public double calcularSubtotal() {
         return this.cantidad * this.precioUnitario;
     }
     
