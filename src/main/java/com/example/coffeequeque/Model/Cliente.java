@@ -23,4 +23,16 @@ public class Cliente extends Usuario {
         System.out.println("Creando Pedido");
     }
 
+    public void pedirProducto(Pedido pedido, Producto producto, int cantidad) {
+        if (producto.isDisponible()) {
+            pedido.agregarProducto(producto, cantidad);
+            System.out.println("Agregado " + producto.getNombre() + " al pedido.");
+        } else {
+            System.out.println("El producto no esta disponible.");}
+    }
+    public void cancelarPedido(Pedido pedido){
+        pedido.cambiarEstado(Pedido.estado.Despachado);
+        System.out.println("El pedido fue #" + pedido.getIdPedido() + "fue cancelado.");
+    }
+
 }
