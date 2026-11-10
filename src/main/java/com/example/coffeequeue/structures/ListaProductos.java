@@ -1,6 +1,8 @@
 package com.example.coffeequeue.structures;
 
 import com.example.coffeequeque.Model.Producto;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class ListaProductos {
     private Nodo<Producto> cabeza;
@@ -73,5 +75,15 @@ public class ListaProductos {
 
     public int getTamanio() {
         return tamanio;
+    }
+
+    public ObservableList<Producto> toObservableList() {
+        ObservableList<Producto> listaFX = FXCollections.observableArrayList();
+        Nodo<Producto> actual = cabeza;
+        while (actual != null) {
+            listaFX.add(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+        return listaFX;
     }
 }

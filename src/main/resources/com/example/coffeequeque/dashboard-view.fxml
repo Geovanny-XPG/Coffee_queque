@@ -8,21 +8,27 @@
     <center>
         <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
-                <!-- Pestaña 1: Módulo de Cocina -->
+                <!-- Pestaña 1: Catálogo del Cliente (Vinculada a hello-view.fxml) -->
+                <Tab text="Catálogo de Productos (Cliente)">
+                    <content>
+                        <fx:include source="hello-view.fxml"/>
+                    </content>
+                </Tab>
+
+                <!-- Pestaña 2: Módulo de Cocina (Cola FIFO) -->
                 <Tab text="Módulo de Cocina">
                     <content>
                         <fx:include source="cocina-view.fxml"/>
                     </content>
                 </Tab>
 
-                <!-- Pestaña 2: Ventanilla de Despacho -->
+                <!-- Pestaña 3: Ventanilla de Despacho -->
                 <Tab text="Ventanilla de Despacho">
                     <content>
                         <fx:include source="despacho-view.fxml"/>
                     </content>
                 </Tab>
-
-                <!-- Pestaña 3: Historial de Acciones (Pila) -->
+                <!-- Pestaña 4: Historial de Acciones (Pila LIFO) -->
                 <Tab text="Historial de Acciones">
                     <content>
                         <fx:include source="historial-view.fxml"/>

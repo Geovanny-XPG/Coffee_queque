@@ -1,6 +1,7 @@
 package com.example.coffeequeque.Model;
 
 import com.example.coffeequeue.structures.ListaProductos;
+import javafx.collections.ObservableList;
 
 public class AdministradorProductos {
     private ListaProductos catalogo;
@@ -40,5 +41,9 @@ public class AdministradorProductos {
         } else {
             catalogo.mostrarProductos();
         }
+    }
+
+    public ObservableList<Producto> getProductosObservable() {
+        return catalogo.toObservableList();
     }
 }
