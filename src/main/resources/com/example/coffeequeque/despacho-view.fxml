@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" >
+<BorderPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coffeequeque.Controller.DespachoController">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
@@ -17,7 +17,7 @@
     <top>
         <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-                <Label text="Ventanilla de Despacho y Turnos" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #000000;" />
+                <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="Ventanilla de Despacho y Turnos" />
             </children>
         </HBox>
     </top>
@@ -30,12 +30,12 @@
                 <!-- Izquierda: Panel Destacado del Último Turno Llamado -->
                 <VBox alignment="CENTER" prefHeight="480.0" prefWidth="420.0" spacing="20.0" style="-fx-background-color: #ffffff; -fx-border-color: #919191; -fx-border-width: 3; -fx-border-radius: 10; -fx-background-radius: 10; -fx-padding: 20;">
                     <children>
-                        <Label text="TURNO EN LLAMADO" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #000000;" />
+                        <Label style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="TURNO EN LLAMADO" />
 
                         <!-- Etiqueta gigante para el número de turno -->
-                        <Label fx:id="lblTurnoActual" text="TURNO #000" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #000000;" />
+                        <Label fx:id="lblTurnoActual" style="-fx-font-size: 42px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="TURNO #000" />
 
-                        <Label fx:id="lblDetalleOrden" text="Detalle: 2x Café Americano, 1x Pan" style="-fx-font-size: 14px; -fx-text-fill: #000000;" />
+                        <Label fx:id="lblDetalleOrden" style="-fx-font-size: 14px; -fx-text-fill: #000000;" text="Detalle: 2x Café Americano, 1x Pan" />
 
                         <Button fx:id="btnEntregar" mnemonicParsing="false" prefHeight="45.0" prefWidth="200.0" style="-fx-background-color: #194e2e; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold; -fx-background-radius: 6;" text="Entregar Pedido" />
                     </children>
@@ -44,7 +44,7 @@
                 <!-- Derecha: Lista de Turnos en espera de recolección -->
                 <VBox prefHeight="480.0" prefWidth="360.0" spacing="10.0" style="-fx-padding: 5;">
                     <children>
-                        <Label text="Listos para Recoger:" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #000000;" />
+                        <Label style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #000000;" text="Listos para Recoger:" />
 
                         <!-- ListView que mostrará los turnos que pasaron desde cocina -->
                         <ListView fx:id="listViewListos" prefHeight="400.0" prefWidth="350.0" style="-fx-background-radius: 6; -fx-border-radius: 6;" />
