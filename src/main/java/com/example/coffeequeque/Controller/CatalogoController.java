@@ -124,11 +124,19 @@ public class CatalogoController {
             return;
         }
 
-        // Envía el pedido a la ColaSimple (FIFO) para el módulo de cocina
-        Pedido nuevoPedido = new Pedido(contadorIdPedidos++, clienteActual, Pedido.estado.Pendiente, totalCompra);
-        colaPedidosGlobal.encolar(nuevoPedido);
+        // Generar un número de turno único mediante la sesión compartida
+        int idTurno = SesionCafeteria.generarSiguienteTurno();
 
-        showAlert("Pedido Confirmado", "Tu pedido #" + nuevoPedido.getIdPedido() + " ha sido enviado a cocina.");
+        // Crear el objeto Pedido con el número de turno asignado
+        Pedido nuevoPedido = new Pedido(idTurno, clienteActual, Pedido.estado.Pendiente, totalCompra);
+
+        // Encolar en la ColaSimple global para que la cocina lo reciba
+        SesionCafeteria.getColaCocina().encolar(nuevoPedido);
+
+        // Registrar la acción en la Pila global de historial (LIFO)
+        SesionCafeteria.getHistorial().apilar("Nuevo pedido generado - Turno #" + idTurno + " ($" + totalCompra + ")");
+
+        showAlert("Pedido Confirmado", "¡Tu turno es el #" + idTurno + "! Ha sido enviado a cocina correctamente.");
 
         carritoItemsFX.clear();
         totalCompra = 0.0;

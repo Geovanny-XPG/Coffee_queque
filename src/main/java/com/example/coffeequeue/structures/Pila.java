@@ -1,5 +1,7 @@
 package com.example.coffeequeue.structures;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 /**
  * Estructura de Datos Lineal: Pila (Stack)
  * Principio: LIFO (Last In, First Out)
@@ -67,5 +69,15 @@ public class Pila<T> {
     public void vaciar() {
         cima = null;
         tamanio = 0;
+    }
+    // Metodo para mostrar visualmente la pila
+    public ObservableList<T> toObservableList() {
+        ObservableList<T> listaFX = FXCollections.observableArrayList();
+        Nodo<T> actual = cima;
+        while (actual != null) {
+            listaFX.add(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+        return listaFX;
     }
 }
