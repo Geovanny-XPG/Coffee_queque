@@ -1,6 +1,6 @@
 package com.example.coffeequeque.Model;
 
-import com.example.coffeequeue.structures.Lista;
+import com.example.coffeequeque.structures.Lista;
 
 public class Cajero extends Usuario {
     private int numeroCaja;

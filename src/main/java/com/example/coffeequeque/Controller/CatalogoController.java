@@ -1,7 +1,7 @@
 package com.example.coffeequeque.Controller;
 
 import com.example.coffeequeque.Model.*;
-import com.example.coffeequeue.structures.ColaSimple;
+import com.example.coffeequeque.structures.ColaSimple;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

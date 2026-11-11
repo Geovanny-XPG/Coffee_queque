@@ -1,9 +1,7 @@
 package com.example.coffeequeque.Controller;
 
 import com.example.coffeequeque.Model.SesionCafeteria;
-import com.example.coffeequeue.structures.Pila;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.example.coffeequeque.structures.Pila;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;

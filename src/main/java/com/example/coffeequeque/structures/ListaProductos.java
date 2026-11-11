@@ -1,4 +1,4 @@
-package com.example.coffeequeue.structures;
+package com.example.coffeequeque.structures;
 
 import com.example.coffeequeque.Model.Producto;
 import javafx.collections.FXCollections;

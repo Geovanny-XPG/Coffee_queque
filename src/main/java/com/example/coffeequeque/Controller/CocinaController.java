@@ -1,9 +1,8 @@
 package com.example.coffeequeque.Controller;
 
 import com.example.coffeequeque.Model.Pedido;
-import com.example.coffeequeue.structures.ColaSimple;
+import com.example.coffeequeque.structures.ColaSimple;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;

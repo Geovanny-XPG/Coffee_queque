@@ -1,4 +1,4 @@
-package com.example.coffeequeue.structures;
+package com.example.coffeequeque.structures;
 
 public class Lista<T> {
 

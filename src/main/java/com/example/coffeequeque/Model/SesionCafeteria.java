@@ -1,7 +1,7 @@
 package com.example.coffeequeque.Model;
 
-import com.example.coffeequeue.structures.ColaSimple;
-import com.example.coffeequeue.structures.Pila;
+import com.example.coffeequeque.structures.ColaSimple;
+import com.example.coffeequeque.structures.Pila;
 
 public class SesionCafeteria {
     private static AdministradorProductos administradorGlobal;

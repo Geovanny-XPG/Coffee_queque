@@ -1,4 +1,4 @@
-package com.example.coffeequeue.structures;
+package com.example.coffeequeque.structures;
 //Creacion de Nodo
 public class Nodo<T> {
     private T dato;
