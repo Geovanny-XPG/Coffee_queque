@@ -4,34 +4,31 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.coffeequeque.Controller.DashboardController">
     <center>
-        <TabPane tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <TabPane fx:id="tabPanePrincipal" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
             <tabs>
-                <!-- Pestaña 1: Catálogo del Cliente (Vinculada a hello-view.fxml) -->
                 <Tab text="Catálogo de Productos (Cliente)">
                     <content>
                         <fx:include source="hello-view.fxml"/>
                     </content>
                 </Tab>
 
-                <!-- Pestaña 2: Módulo de Cocina (Cola FIFO) -->
                 <Tab text="Módulo de Cocina">
                     <content>
-                        <fx:include source="cocina-view.fxml"/>
+                        <fx:include fx:id="cocina" source="cocina-view.fxml"/>
                     </content>
                 </Tab>
 
-                <!-- Pestaña 3: Ventanilla de Despacho -->
                 <Tab text="Ventanilla de Despacho">
                     <content>
-                        <fx:include source="despacho-view.fxml"/>
+                        <fx:include fx:id="despacho" source="despacho-view.fxml"/>
                     </content>
                 </Tab>
-                <!-- Pestaña 4: Historial de Acciones (Pila LIFO) -->
+
                 <Tab text="Historial de Acciones">
                     <content>
-                        <fx:include source="historial-view.fxml"/>
+                        <fx:include fx:id="historial" source="historial-view.fxml"/>
                     </content>
                 </Tab>
             </tabs>

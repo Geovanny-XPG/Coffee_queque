@@ -8,6 +8,14 @@ public class SesionCafeteria {
     private static ColaSimple<Pedido> colaCocinaGlobal;
     private static Pila<String> historialGlobal;
     private static int contadorTurnos = 1;
+    private static ColaSimple<Pedido> colaDespachoGlobal;
+
+    public static ColaSimple<Pedido> getColaDespacho() {
+        if (colaDespachoGlobal == null) {
+            colaDespachoGlobal = new ColaSimple<>();
+        }
+        return colaDespachoGlobal;
+    }
 
     public static AdministradorProductos getAdministrador() {
         if (administradorGlobal == null) {
@@ -44,5 +52,6 @@ public class SesionCafeteria {
             System.err.println("Advertencia: No se pudieron registrar los productos iniciales - " + e.getMessage());
             e.printStackTrace();
         }
+
     }
 }

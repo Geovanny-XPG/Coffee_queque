@@ -27,7 +27,7 @@ public class HistorialController {
      * (el elemento en la cima se muestra primero en el ListView).
      */
 
-    private void actualizarHistorialUI() {
+    public void actualizarHistorialUI() {
         if (listViewHistorial != null) {
             listViewHistorial.setItems(SesionCafeteria.getHistorial().toObservableList());
         }
