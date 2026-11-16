@@ -46,7 +46,9 @@ public class Pedido {
 
     //metodo agrega pedido acliente
     public void agregarProducto(Producto producto, int cantidad) {
-        System.out.println("Agregado " + cantidad + "x " + producto.getNombre() + " al pedido.");
+        if (producto != null) {
+            this.total += producto.getPrecio() * cantidad;
+            System.out.println("Agregado " + cantidad + "x " + producto.getNombre() + " al pedido.");
+        }
     }
-
 }
