@@ -7,6 +7,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
@@ -74,6 +76,30 @@ public class CatalogoController {
         card.setSpacing(5.0);
         card.setStyle("-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8; -fx-background-color: white;");
 
+        // 1. Crear el ImageView con dimensiones fijas
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(110.0);
+        imageView.setFitWidth(110.0);
+        imageView.setPickOnBounds(true);
+        imageView.setPreserveRatio(true);
+
+        try {
+            String nombreImagen = obtenerNombreImagen(p.getNombre());
+
+            // Como tu carpeta 'imagenes' está directamente en resources, la ruta es esta:
+            String ruta = "/imagenes/" + nombreImagen;
+
+            var resourceStream = getClass().getResourceAsStream(ruta);
+            if (resourceStream != null) {
+                Image img = new Image(resourceStream);
+                imageView.setImage(img);
+            } else {
+                System.out.println("⚠️ No se encontró el archivo de imagen en la ruta: " + ruta);
+            }
+        } catch (Exception e) {
+            System.out.println("❌ Error al cargar la imagen para: " + p.getNombre() + " -> " + e.getMessage());
+        }
+
         Label lblNombre = new Label(p.getNombre());
         lblNombre.setStyle("-fx-font-weight: bold;");
 
@@ -85,8 +111,25 @@ public class CatalogoController {
         Button btnAgregar = new Button("Agregar");
         btnAgregar.setOnAction(e -> agregarAlCarrito(p));
 
-        card.getChildren().addAll(lblNombre, lblPrecio, lblStock, btnAgregar);
+        // 2. ¡IMPORTANTE! Asegurarnos de meter el imageView en el VBox
+        card.getChildren().addAll(imageView, lblNombre, lblPrecio, lblStock, btnAgregar);
         return card;
+    }
+
+    // Método auxiliar para asociar el nombre del producto con su archivo de imagen
+    private String obtenerNombreImagen(String nombreProducto) {
+        if (nombreProducto == null) return "default.png";
+        switch (nombreProducto.toLowerCase()) {
+            case "café americano": return "cafe_americano.PNG";
+            case "capuchino": return "capuchino.PNG";
+            case "pan de muerto": return "pan_de_muerto.PNG";
+            case "cuernito": return "cuernito.PNG";
+            case "sandwich": return "sandwich.PNG";
+            case "torta de salchicha": return "torta_Salchicha.PNG";
+            case "refresco 600ml": return "coca.PNG";
+            case "galletas": return "galletas.PNG";
+            default: return "default.png";
+        }
     }
 
     @FXML
@@ -124,16 +167,11 @@ public class CatalogoController {
             return;
         }
 
-        // Generar un número de turno único mediante la sesión compartida
         int idTurno = SesionCafeteria.generarSiguienteTurno();
-
-        // Crear el objeto Pedido con el número de turno asignado
         Pedido nuevoPedido = new Pedido(idTurno, clienteActual, Pedido.estado.Pendiente, totalCompra);
 
-        // Encolar en la ColaSimple global para que la cocina lo reciba
         SesionCafeteria.getColaCocina().encolar(nuevoPedido);
 
-        // Registrar la acción en la Pila global de historial (LIFO)
         SesionCafeteria.getHistorial().apilar(new Accion(
                 Accion.Tipo.VENTA_REGISTRADA, nuevoPedido, nuevoPedido.getEstado(),
                 "Nuevo pedido generado - Turno #" + idTurno + " ($" + String.format("%.2f", nuevoPedido.getTotal()) + ")"));

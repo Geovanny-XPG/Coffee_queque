@@ -45,9 +45,14 @@ public class SesionCafeteria {
 
     private static void cargarDatosIniciales(AdministradorProductos admin) {
         try {
-            admin.registrarNuevoProducto(1, "Café Americano", 35.0, 20);
-            admin.registrarNuevoProducto(2, "Capuchino", 45.0, 15);
+            admin.registrarNuevoProducto(1, "Café Americano", 35.0, 10);
+            admin.registrarNuevoProducto(2, "Capuchino", 45.0, 10);
             admin.registrarNuevoProducto(3, "Pan de Muerto", 25.0, 10);
+            admin.registrarNuevoProducto(4, "Cuernito", 45.0, 10);
+            admin.registrarNuevoProducto(5, "Sandwich", 30.0, 10);
+            admin.registrarNuevoProducto(6, "Torta de Salchicha", 40.0, 10);
+            admin.registrarNuevoProducto(7, "Refresco 600ml", 16.0, 10);
+            admin.registrarNuevoProducto(8, "Galletas", 18.0, 10);
         } catch (Exception e) {
             System.err.println("Advertencia: No se pudieron registrar los productos iniciales - " + e.getMessage());
             e.printStackTrace();

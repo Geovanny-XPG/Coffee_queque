@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
@@ -39,7 +40,10 @@
                     <children>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/cafe_americano.PNG" />
+                           </image></ImageView>
                                 <Label text="Café Americano" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $35.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
@@ -47,7 +51,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/capuchino.PNG" />
+                           </image></ImageView>
                                 <Label text="Capuchino" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $45.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
@@ -55,7 +62,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/pan_de_muerto.PNG" />
+                           </image></ImageView>
                                 <Label text="Pan de Muerto" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $25.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
@@ -63,7 +73,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/cuernito.PNG" />
+                           </image></ImageView>
                                 <Label text="Cuernito" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $45.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
@@ -71,7 +84,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/sandwich.PNG" />
+                           </image></ImageView>
                                 <Label text="Sandwich" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $30.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
@@ -79,7 +95,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/torta_Salchicha.PNG" />
+                           </image></ImageView>
                                 <Label text="Torta de Salchicha" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $40.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
@@ -87,7 +106,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/coca.PNG" />
+                           </image></ImageView>
                                 <Label text="Refresco 600ml" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $16.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
@@ -95,7 +117,10 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="278.0" prefWidth="160.0" spacing="5.0" style="-fx-border-color: #ddd; -fx-border-radius: 5; -fx-background-radius: 5; -fx-padding: 8;">
                             <children>
-                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
+                                <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../imagenes/galletas.PNG" />
+                           </image></ImageView>
                                 <Label text="Galletas" />
                                 <Label style="-fx-font-weight: bold; -fx-text-fill: #27ae60;" text="Precio: $18.00" />
                                 <Button mnemonicParsing="false" text="Agregar" />
