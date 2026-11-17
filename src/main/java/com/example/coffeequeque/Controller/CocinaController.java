@@ -1,5 +1,6 @@
 package com.example.coffeequeque.Controller;
 
+import com.example.coffeequeque.Model.Accion;
 import com.example.coffeequeque.Model.Pedido;
 import com.example.coffeequeque.Model.SesionCafeteria;
 import com.example.coffeequeque.structures.ColaSimple;
@@ -44,7 +45,6 @@ public class CocinaController {
             lblPendientes.setText("Pendientes: " + colaCocina.getTamanio());
         }
 
-        // Copia de la cola en orden FIFO (no modifica la cola real)
         Lista<Pedido> pedidos = colaCocina.aLista();
 
         for (int i = 0; i < pedidos.getTamaño(); i++) {
@@ -81,9 +81,12 @@ public class CocinaController {
             btnListo.setStyle("-fx-background-color: #1e5a11; -fx-text-fill: white; -fx-font-weight: bold;");
             btnListo.setOnAction(e -> {
                 Pedido listo = SesionCafeteria.getColaCocina().desencolar();
+                Pedido.estado anterior = listo.getEstado();
                 listo.cambiarEstado(Pedido.estado.Cobrado);
                 SesionCafeteria.getColaDespacho().encolar(listo);
-                SesionCafeteria.getHistorial().apilar("Orden #" + listo.getIdPedido() + " lista en cocina");
+                SesionCafeteria.getHistorial().apilar(new Accion(
+                        Accion.Tipo.COMANDA_LISTA, listo, anterior,
+                        "Orden #" + listo.getIdPedido() + " lista en cocina"));
 
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Comanda Lista");
@@ -94,7 +97,6 @@ public class CocinaController {
                 renderizarComandas();
             });
         } else {
-            // Solo el frente de la cola se puede despachar (respeta el FIFO)
             btnListo.setDisable(true);
             card.setStyle(card.getStyle() + "-fx-opacity: 0.85;");
         }

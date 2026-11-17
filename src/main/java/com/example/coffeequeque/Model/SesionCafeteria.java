@@ -6,7 +6,7 @@ import com.example.coffeequeque.structures.Pila;
 public class SesionCafeteria {
     private static AdministradorProductos administradorGlobal;
     private static ColaSimple<Pedido> colaCocinaGlobal;
-    private static Pila<String> historialGlobal;
+    private static Pila<Accion> historialGlobal;
     private static int contadorTurnos = 1;
     private static ColaSimple<Pedido> colaDespachoGlobal;
 
@@ -32,7 +32,7 @@ public class SesionCafeteria {
         return colaCocinaGlobal;
     }
 
-    public static Pila<String> getHistorial() {
+    public static Pila<Accion> getHistorial() {
         if (historialGlobal == null) {
             historialGlobal = new Pila<>();
         }

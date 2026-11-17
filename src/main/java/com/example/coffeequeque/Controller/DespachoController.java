@@ -1,5 +1,6 @@
 package com.example.coffeequeque.Controller;
 
+import com.example.coffeequeque.Model.Accion;
 import com.example.coffeequeque.Model.Cajero;
 import com.example.coffeequeque.Model.Pedido;
 import com.example.coffeequeque.Model.SesionCafeteria;
@@ -42,7 +43,6 @@ public class DespachoController {
         } else {
             if (btnEntregar != null) btnEntregar.setDisable(false);
 
-            // Panel destacado: el turno en llamado es el frente de la cola
             Pedido frente = colaDespacho.verFrente();
             if (lblTurnoActual != null) {
                 lblTurnoActual.setText(String.format("TURNO #%03d", frente.getIdPedido()));
@@ -52,7 +52,6 @@ public class DespachoController {
                 lblDetalleOrden.setText(String.format("Cliente: %s | Total: $%.2f", cliente, frente.getTotal()));
             }
 
-            // Lista: todos los pedidos listos, en orden FIFO
             Lista<Pedido> pedidos = colaDespacho.aLista();
             for (int i = 0; i < pedidos.getTamaño(); i++) {
                 Pedido p = pedidos.obtener(i);
@@ -71,8 +70,11 @@ public class DespachoController {
         ColaSimple<Pedido> colaDespacho = SesionCafeteria.getColaDespacho();
         if (colaDespacho != null && !colaDespacho.estaVacia()) {
             Pedido entregado = colaDespacho.desencolar();
+            Pedido.estado anterior = entregado.getEstado();
             cajeroEnTurno.despacharPedido(entregado);
-            SesionCafeteria.getHistorial().apilar("Pedido #" + entregado.getIdPedido() + " entregado por " + cajeroEnTurno.getNombre());
+            SesionCafeteria.getHistorial().apilar(new Accion(
+                    Accion.Tipo.PEDIDO_ENTREGADO, entregado, anterior,
+                    "Pedido #" + entregado.getIdPedido() + " entregado por " + cajeroEnTurno.getNombre()));
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Entrega Exitosa");

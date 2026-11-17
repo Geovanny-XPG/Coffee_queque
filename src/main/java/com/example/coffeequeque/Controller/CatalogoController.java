@@ -134,7 +134,9 @@ public class CatalogoController {
         SesionCafeteria.getColaCocina().encolar(nuevoPedido);
 
         // Registrar la acción en la Pila global de historial (LIFO)
-        SesionCafeteria.getHistorial().apilar("Nuevo pedido generado - Turno #" + idTurno + " ($" + totalCompra + ")");
+        SesionCafeteria.getHistorial().apilar(new Accion(
+                Accion.Tipo.VENTA_REGISTRADA, nuevoPedido, nuevoPedido.getEstado(),
+                "Nuevo pedido generado - Turno #" + idTurno + " ($" + String.format("%.2f", nuevoPedido.getTotal()) + ")"));
 
         showAlert("Pedido Confirmado", "¡Tu turno es el #" + idTurno + "! Ha sido enviado a cocina correctamente.");
 

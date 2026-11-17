@@ -67,4 +67,36 @@ public class ColaSimple<T> {
         }
         return lista;
     }
+
+    // Inserta al frente (para deshacer) - O(1)
+    public void encolarAlFrente(T dato) {
+        Nodo<T> nuevo = new Nodo<>(dato);
+        nuevo.setSiguiente(frente);
+        frente = nuevo;
+        if (fin == null) {
+            fin = nuevo;
+        }
+        tamanio++;
+    }
+
+    // Remueve y retorna el último elemento (para deshacer) - O(n)
+    public T desencolarUltimo() {
+        if (estaVacia()) {
+            throw new IllegalStateException("La cola está vacía.");
+        }
+        if (frente == fin) {
+            return desencolar();
+        }
+        Nodo<T> actual = frente;
+        while (actual.getSiguiente() != fin) {
+            actual = actual.getSiguiente();
+        }
+        T dato = fin.getDato();
+        actual.setSiguiente(null);
+        fin = actual;
+        tamanio--;
+        return dato;
+    }
+
+
 }
