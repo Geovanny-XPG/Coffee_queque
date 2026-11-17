@@ -56,4 +56,15 @@ public class ColaSimple<T> {
     public int getTamanio() {
         return tamanio;
     }
+
+    // Retorna una copia de los elementos en orden FIFO, sin modificar la cola - O(n)
+    public Lista<T> aLista() {
+        Lista<T> lista = new Lista<>();
+        Nodo<T> actual = frente;
+        while (actual != null) {
+            lista.agregar(actual.getDato());
+            actual = actual.getSiguiente();
+        }
+        return lista;
+    }
 }

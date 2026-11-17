@@ -3,6 +3,7 @@ package com.example.coffeequeque.Controller;
 import com.example.coffeequeque.Model.Pedido;
 import com.example.coffeequeque.Model.SesionCafeteria;
 import com.example.coffeequeque.structures.ColaSimple;
+import com.example.coffeequeque.structures.Lista;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -16,6 +17,9 @@ public class CocinaController {
     private FlowPane flowPaneComandas;
 
     @FXML
+    private Label lblPendientes;
+
+    @FXML
     public void initialize() {
         renderizarComandas();
     }
@@ -27,17 +31,29 @@ public class CocinaController {
         ColaSimple<Pedido> colaCocina = SesionCafeteria.getColaCocina();
 
         if (colaCocina == null || colaCocina.estaVacia()) {
+            if (lblPendientes != null) {
+                lblPendientes.setText("Pendientes: 0");
+            }
             Label lblVacio = new Label("No hay comandas pendientes en cocina.");
             lblVacio.setStyle("-fx-font-size: 14px; -fx-text-fill: #7f8c8d;");
             flowPaneComandas.getChildren().add(lblVacio);
             return;
         }
 
-        Pedido pedidoFrente = colaCocina.verFrente();
-        flowPaneComandas.getChildren().add(crearTarjetaComanda(pedidoFrente));
+        if (lblPendientes != null) {
+            lblPendientes.setText("Pendientes: " + colaCocina.getTamanio());
+        }
+
+        // Copia de la cola en orden FIFO (no modifica la cola real)
+        Lista<Pedido> pedidos = colaCocina.aLista();
+
+        for (int i = 0; i < pedidos.getTamaño(); i++) {
+            boolean esElPrimero = (i == 0);
+            flowPaneComandas.getChildren().add(crearTarjetaComanda(pedidos.obtener(i), esElPrimero));
+        }
     }
 
-    private VBox crearTarjetaComanda(Pedido pedido) {
+    private VBox crearTarjetaComanda(Pedido pedido, boolean esElPrimero) {
         VBox card = new VBox();
         card.setPrefHeight(220.0);
         card.setPrefWidth(190.0);
@@ -56,26 +72,32 @@ public class CocinaController {
         boxProductos.setStyle("-fx-background-color: #fafafa; -fx-padding: 8; -fx-background-radius: 4;");
         Label lblTotal = new Label(String.format("Total: $%.2f", pedido.getTotal()));
         lblTotal.setStyle("-fx-font-weight: bold; -fx-text-fill: #27ae60;");
-        Label lblPendientes = new Label("En cola: " + SesionCafeteria.getColaCocina().getTamanio());
-        boxProductos.getChildren().addAll(lblTotal, lblPendientes);
+        boxProductos.getChildren().add(lblTotal);
 
-        Button btnListo = new Button("Marcar como Listo");
+        Button btnListo = new Button(esElPrimero ? "Marcar como Listo" : "En espera");
         btnListo.setMaxWidth(Double.MAX_VALUE);
-        btnListo.setStyle("-fx-background-color: #1e5a11; -fx-text-fill: white; -fx-font-weight: bold;");
-        btnListo.setOnAction(e -> {
-            Pedido listo = SesionCafeteria.getColaCocina().desencolar();
-            listo.cambiarEstado(Pedido.estado.Cobrado);
-            SesionCafeteria.getColaDespacho().encolar(listo);
-            SesionCafeteria.getHistorial().apilar("Orden #" + listo.getIdPedido() + " lista en cocina");
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Comanda Lista");
-            alert.setHeaderText(null);
-            alert.setContentText("La orden #" + listo.getIdPedido() + " pasó a Ventanilla de Despacho.");
-            alert.showAndWait();
+        if (esElPrimero) {
+            btnListo.setStyle("-fx-background-color: #1e5a11; -fx-text-fill: white; -fx-font-weight: bold;");
+            btnListo.setOnAction(e -> {
+                Pedido listo = SesionCafeteria.getColaCocina().desencolar();
+                listo.cambiarEstado(Pedido.estado.Cobrado);
+                SesionCafeteria.getColaDespacho().encolar(listo);
+                SesionCafeteria.getHistorial().apilar("Orden #" + listo.getIdPedido() + " lista en cocina");
 
-            renderizarComandas();
-        });
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Comanda Lista");
+                alert.setHeaderText(null);
+                alert.setContentText("La orden #" + listo.getIdPedido() + " pasó a Ventanilla de Despacho.");
+                alert.showAndWait();
+
+                renderizarComandas();
+            });
+        } else {
+            // Solo el frente de la cola se puede despachar (respeta el FIFO)
+            btnListo.setDisable(true);
+            card.setStyle(card.getStyle() + "-fx-opacity: 0.85;");
+        }
 
         card.getChildren().addAll(lblTitulo, lblCliente, boxProductos, btnListo);
         return card;

@@ -4,6 +4,7 @@ import com.example.coffeequeque.Model.Cajero;
 import com.example.coffeequeque.Model.Pedido;
 import com.example.coffeequeque.Model.SesionCafeteria;
 import com.example.coffeequeque.structures.ColaSimple;
+import com.example.coffeequeque.structures.Lista;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,7 +38,11 @@ public class DespachoController {
         if (colaDespacho == null || colaDespacho.estaVacia()) {
             if (lblTurnoActual != null) lblTurnoActual.setText("TURNO #---");
             if (lblDetalleOrden != null) lblDetalleOrden.setText("Detalle: No hay turnos pendientes");
+            if (btnEntregar != null) btnEntregar.setDisable(true);
         } else {
+            if (btnEntregar != null) btnEntregar.setDisable(false);
+
+            // Panel destacado: el turno en llamado es el frente de la cola
             Pedido frente = colaDespacho.verFrente();
             if (lblTurnoActual != null) {
                 lblTurnoActual.setText(String.format("TURNO #%03d", frente.getIdPedido()));
@@ -46,7 +51,14 @@ public class DespachoController {
                 String cliente = (frente.getCliente() != null) ? frente.getCliente().getNombre() : "General";
                 lblDetalleOrden.setText(String.format("Cliente: %s | Total: $%.2f", cliente, frente.getTotal()));
             }
-            itemsListos.add(String.format("TURNO #%03d - $%.2f (Listo)", frente.getIdPedido(), frente.getTotal()));
+
+            // Lista: todos los pedidos listos, en orden FIFO
+            Lista<Pedido> pedidos = colaDespacho.aLista();
+            for (int i = 0; i < pedidos.getTamaño(); i++) {
+                Pedido p = pedidos.obtener(i);
+                String estado = (i == 0) ? "En llamado" : "En espera";
+                itemsListos.add(String.format("TURNO #%03d - $%.2f (%s)", p.getIdPedido(), p.getTotal(), estado));
+            }
         }
 
         if (listViewListos != null) {
