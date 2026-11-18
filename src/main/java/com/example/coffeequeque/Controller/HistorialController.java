@@ -8,74 +8,92 @@ import com.example.coffeequeque.structures.Pila;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
 public class HistorialController {
 
-    // Componentes de la interfaz gráfica inyectados desde el FXML
+    // Lista visual del historial y botón de deshacer, inyectados desde el FXML
     @FXML private ListView<Accion> listViewHistorial;
     @FXML private Button btnDeshacer;
 
-    // Método que se ejecuta automáticamente al inicializar la vista del historial
     @FXML
     public void initialize() {
+        // Segunda barrera de seguridad: solo el personal de caja puede ver y usar el historial.
+        // (El login ya dirige a los clientes al catálogo, pero esto cubre otros caminos de acceso)
+        if (!SesionCafeteria.esCajero()) {
+            if (btnDeshacer != null) btnDeshacer.setDisable(true);
+            if (listViewHistorial != null) {
+                listViewHistorial.setPlaceholder(new Label("Acceso restringido al personal de caja."));
+            }
+            return;
+        }
+
         actualizarHistorialUI();
         if (btnDeshacer != null) {
-            // Vinculamos el botón de deshacer con su respectivo método manejador
             btnDeshacer.setOnAction(e -> handleDeshacerAccion());
         }
     }
 
-    // Muestra los elementos de la pila en orden LIFO (Last In, First Out), donde la cima aparece primero
+    /**
+     * Recorre la Pila<Accion> y la convierte en una ObservableList respetando el orden LIFO
+     * (el elemento en la cima se muestra primero en el ListView).
+     * El texto de cada fila sale del toString() de Accion.
+     */
     public void actualizarHistorialUI() {
         if (listViewHistorial != null) {
-            // Rellenamos el ListView con la lista observable obtenida desde la pila de la sesión
             listViewHistorial.setItems(SesionCafeteria.getHistorial().toObservableList());
         }
     }
 
-    // Deshace la acción ubicada en la cima de la pila, revirtiendo también los cambios en el sistema
+    /**
+     * Acción del botón "Deshacer Última Acción (Pop)": remueve el elemento de la cima de la pila
+     * y revierte su efecto real en el sistema (colas y estado del pedido), no solo en la lista visible.
+     */
     @FXML
     private void handleDeshacerAccion() {
+        // Aunque el botón esté deshabilitado para otros roles, se vuelve a comprobar aquí
+        if (!SesionCafeteria.esCajero()) return;
+
         Pila<Accion> historial = SesionCafeteria.getHistorial();
-        
-        // Verificamos si la pila está vacía antes de intentar desapilar
         if (historial.estaVacia()) {
             showAlert("Historial Vacío", "No hay acciones registradas para deshacer.");
             return;
         }
 
-        // Extraemos la última acción realizada (la cima de la pila)
+        // Pop: se extrae la acción más reciente (LIFO)
         Accion accion = historial.desapilar();
         Pedido pedido = accion.getPedido();
         ColaSimple<Pedido> colaCocina = SesionCafeteria.getColaCocina();
         ColaSimple<Pedido> colaDespacho = SesionCafeteria.getColaDespacho();
 
-        // Evaluamos el tipo de acción para aplicar la lógica inversa correspondiente
+        // Como la pila es LIFO, el pedido siempre está donde cada caso espera encontrarlo
         switch (accion.getTipo()) {
             case VENTA_REGISTRADA:
-                // El pedido se registró y estaba al final de la cola de cocina; se elimina
+                // El pedido se encoló al final de cocina: se quita de ahí
                 colaCocina.desencolarUltimo();
                 break;
             case COMANDA_LISTA:
-                // El pedido pasó a despacho; se retira de ahí y regresa al frente de cocina con su estado anterior
+                // Estaba al final de despacho: sale de ahí y vuelve al frente de cocina
+                // con el estado que tenía antes de marcarse como listo
                 colaDespacho.desencolarUltimo();
                 pedido.cambiarEstado(accion.getEstadoAnterior());
                 colaCocina.encolarAlFrente(pedido);
                 break;
             case PEDIDO_ENTREGADO:
-                // El pedido fue entregado; se recupera, se restaura su estado anterior y vuelve al frente de despacho
+                // Ya había salido de la cola: vuelve al frente de despacho
+                // con su estado anterior a la entrega
                 pedido.cambiarEstado(accion.getEstadoAnterior());
                 colaDespacho.encolarAlFrente(pedido);
                 break;
         }
 
-        // Actualizamos la interfaz gráfica y mostramos una alerta confirmando la acción revertida
+        // Se refresca la lista visible y se informa qué acción se revirtió
         actualizarHistorialUI();
         showAlert("Acción Deshecha", "Se ha revertido:\n" + accion);
     }
 
-    // Método auxiliar para mostrar alertas emergentes en pantalla
+    // Muestra una ventana informativa con el título y mensaje recibidos
     private void showAlert(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);

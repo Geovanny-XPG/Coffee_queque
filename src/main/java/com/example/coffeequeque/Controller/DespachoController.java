@@ -3,6 +3,7 @@ package com.example.coffeequeque.Controller;
 import com.example.coffeequeque.Model.Accion;
 import com.example.coffeequeque.Model.Cajero;
 import com.example.coffeequeque.Model.Pedido;
+import com.example.coffeequeque.Model.Usuario;
 import com.example.coffeequeque.Model.SesionCafeteria;
 import com.example.coffeequeque.structures.ColaSimple;
 import com.example.coffeequeque.structures.Lista;
@@ -28,13 +29,16 @@ public class DespachoController {
     // Método que se ejecuta automáticamente al inicializar la vista de despacho
     @FXML
     public void initialize() {
-        // Inicializamos el cajero por defecto para el módulo de entrega
-        cajeroEnTurno = new Cajero(1, "Cajero Mostrador", "mostrador@coffee.com", "123", true, 1);
+        // Se obtiene el usuario que inicio sesion
+        Usuario actual = SesionCafeteria.getUsuarioActual();
+        // Determina si es cajero segun el tipo de usuario con el que se entro
+        cajeroEnTurno = (actual instanceof Cajero) ? (Cajero) actual
+                : new Cajero(1, "Administrador", "admin@coffee.com", "123456", true, 1);
         if (btnEntregar != null) {
-            // Vinculamos la acción del botón al método encargado de finalizar la entrega
+            // Activa el boton si el pedido esta disponible
             btnEntregar.setOnAction(e -> handleEntregarPedido());
         }
-        // Actualizamos la interfaz al cargar por primera vez
+        // Muestra los cambios en la interfaz
         actualizarVista();
     }
 

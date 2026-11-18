@@ -2,6 +2,7 @@ package com.example.coffeequeque.Controller;
 
 import com.example.coffeequeque.Model.Cajero;
 import com.example.coffeequeque.Model.Cliente;
+import com.example.coffeequeque.Model.SesionCafeteria;
 import com.example.coffeequeque.Model.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,22 +29,21 @@ public class LoginController {
         String password = txtPassword.getText().trim();
 
         // Usuarios de prueba simulados (puedes conectarlo a tu estructura o base de datos)
-        Usuario adminPrueba = new Cajero(1, "pruebaAdmin", "admin@coffee.com", "1234", false, 1);
-        Usuario clientePrueba = new Cliente(2, "pruebaCliente", "cliente@coffee.com", "1234", false, "MAT-2026");
+        Usuario usuario = SesionCafeteria.getAdministradorUsuarios().autenticar(correo, password);
 
         // Intentamos validar las credenciales como Administrador / Cajero
-        adminPrueba.login(correo, password);
-        if (adminPrueba.isLog()) {
+        if (usuario instanceof Cajero) {
+            SesionCafeteria.iniciarSesion(usuario);
             // Si el login es exitoso, abrimos el dashboard general de operaciones
             abrirDashboard("Administrador / Operaciones", "/com/example/coffeequeque/dashboard-view.fxml");
             return;
         }
 
         // Si no es administrador, intentamos validar como Cliente
-        clientePrueba.login(correo, password);
-        if (clientePrueba.isLog()) {
+        if (usuario instanceof Cliente) {
+            SesionCafeteria.iniciarSesion(usuario);
             // Si el login es exitoso, abrimos la vista del catálogo para clientes
-            abrirDashboard("Catálogo de Cliente", "/com/example/coffeequeque/catalogo-view.fxml");
+            abrirDashboard("Catálogo de Cliente", "/com/example/coffeequeque/hello-view.fxml");
             return;
         }
 
@@ -51,11 +51,23 @@ public class LoginController {
         lblMensajeError.setText("Correo o contraseña incorrectos.");
     }
 
+    @FXML
+    private void handleIrARegistro() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/coffeequeque/registro-view.fxml"));
+            Stage stage = (Stage) txtCorreo.getScene().getWindow();
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+            lblMensajeError.setText("Error al cargar la vista: " + e.getMessage());
+        }
+    }
+
     // Método auxiliar para cargar la nueva ventana (Dashboard o Catálogo) y cerrar la ventana actual de login
     private void abrirDashboard(String titulo, String rutaFxml) {
         try {
             // Cargamos el archivo FXML correspondiente a la siguiente vista
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/coffeequeque/dashboard-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(rutaFxml));
             Stage stage = new Stage();
             stage.setTitle("CoffeeQueue - " + titulo);
             stage.setScene(new Scene(loader.load(), 900, 650));

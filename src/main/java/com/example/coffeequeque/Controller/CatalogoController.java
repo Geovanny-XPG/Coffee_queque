@@ -1,7 +1,6 @@
 package com.example.coffeequeque.Controller;
 
 import com.example.coffeequeque.Model.*;
-import com.example.coffeequeque.structures.ColaSimple;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,8 +25,6 @@ public class CatalogoController {
     private double totalCompra = 0.0;
 
     private Cliente clienteActual;
-    private ColaSimple<Pedido> colaPedidosGlobal;
-    private int contadorIdPedidos = 1;
 
     @FXML
     public void initialize() {
@@ -38,9 +35,9 @@ public class CatalogoController {
         if (listViewCarrito != null) {
             listViewCarrito.setItems(carritoItemsFX);
         }
-// Definimos un cliente por defecto e inicializamos la estructura de cola de pedidos
-        clienteActual = new Cliente(1, "Luis Cliente", "cliente@coffee.com", "123", true, "MAT-2026");
-        colaPedidosGlobal = new ColaSimple<>();
+// Definimos un cliente y revisamos que tipo es para mostrar una interfaz distinta
+        Usuario actual = SesionCafeteria.getUsuarioActual();
+        clienteActual = (actual instanceof Cliente) ? (Cliente) actual : null;
 
 // Carga y dibuja las tarjetas del catálogo desde tu estructura enlazada
         renderizarCatalogoCompleto();
