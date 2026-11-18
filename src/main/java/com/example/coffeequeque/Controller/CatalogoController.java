@@ -13,14 +13,14 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
 public class CatalogoController {
-
+// Componentes de la interfaz gráfica inyectados desde el archivo FXML
     @FXML private TextField txtBuscador;
     @FXML private Button btnBuscar;
     @FXML private FlowPane flowPaneCatalogo;
     @FXML private ListView<String> listViewCarrito;
     @FXML private Label lblTotal;
     @FXML private Button btnConfirmarPedido;
-
+// Variables de control, inventario y datos de la sesión
     private AdministradorProductos administrador;
     private ObservableList<String> carritoItemsFX;
     private double totalCompra = 0.0;
@@ -33,18 +33,18 @@ public class CatalogoController {
     public void initialize() {
         // Conectamos con el inventario centralizado de la cafetería
         administrador = SesionCafeteria.getAdministrador();
-
+// Inicializamos la lista observable para reflejar los productos agregados al carrito
         carritoItemsFX = FXCollections.observableArrayList();
         if (listViewCarrito != null) {
             listViewCarrito.setItems(carritoItemsFX);
         }
-
+// Definimos un cliente por defecto e inicializamos la estructura de cola de pedidos
         clienteActual = new Cliente(1, "Luis Cliente", "cliente@coffee.com", "123", true, "MAT-2026");
         colaPedidosGlobal = new ColaSimple<>();
 
-        // Carga y dibuja las tarjetas del catálogo desde tu estructura enlazada
+// Carga y dibuja las tarjetas del catálogo desde tu estructura enlazada
         renderizarCatalogoCompleto();
-
+// Enlazamos los eventos de búsqueda y confirmación de pedidos a los botones/campos
         if (btnBuscar != null) btnBuscar.setOnAction(e -> handleBuscarProducto());
         if (txtBuscador != null) txtBuscador.setOnAction(e -> handleBuscarProducto());
         if (btnConfirmarPedido != null) btnConfirmarPedido.setOnAction(e -> handleConfirmarPedido());
@@ -52,7 +52,7 @@ public class CatalogoController {
 
     public void renderizarCatalogoCompleto() {
         if (flowPaneCatalogo == null) return;
-
+// Limpiamos el contenedor antes de renderizar para evitar duplicados
         flowPaneCatalogo.getChildren().clear();
 
         // Obtiene la lista observable adaptada desde tu ListaProductos personalizada
@@ -62,7 +62,7 @@ public class CatalogoController {
             flowPaneCatalogo.getChildren().add(new Label("No hay productos disponibles en el catálogo."));
             return;
         }
-
+        // Recorremos la lista de productos para crear la tarjeta visual de cada uno
         for (Producto p : productosObs) {
             flowPaneCatalogo.getChildren().add(crearTarjetaProducto(p));
         }
@@ -86,7 +86,7 @@ public class CatalogoController {
         try {
             String nombreImagen = obtenerNombreImagen(p.getNombre());
 
-            // Como tu carpeta 'imagenes' está directamente en resources, la ruta es esta:
+            // Como la carpeta 'imagenes' está directamente en resources, la ruta es esta:
             String ruta = "/imagenes/" + nombreImagen;
 
             var resourceStream = getClass().getResourceAsStream(ruta);
@@ -99,7 +99,7 @@ public class CatalogoController {
         } catch (Exception e) {
             System.out.println("❌ Error al cargar la imagen para: " + p.getNombre() + " -> " + e.getMessage());
         }
-
+        // Creamos las etiquetas con la información del producto
         Label lblNombre = new Label(p.getNombre());
         lblNombre.setStyle("-fx-font-weight: bold;");
 
@@ -107,7 +107,7 @@ public class CatalogoController {
         lblPrecio.setStyle("-fx-font-weight: bold; -fx-text-fill: #27ae60;");
 
         Label lblStock = new Label("Stock: " + p.getStock());
-
+        // Botón interactivo para añadir el producto al carrito de compras
         Button btnAgregar = new Button("Agregar");
         btnAgregar.setOnAction(e -> agregarAlCarrito(p));
 
@@ -135,11 +135,12 @@ public class CatalogoController {
     @FXML
     private void handleBuscarProducto() {
         if (txtBuscador == null || flowPaneCatalogo == null) return;
-
+        // Obtenemos el texto de búsqueda en minúsculas para filtrar
         String query = txtBuscador.getText().trim().toLowerCase();
         ObservableList<Producto> productosObs = administrador.getProductosObservable();
 
         flowPaneCatalogo.getChildren().clear();
+        // Filtramos y mostramos únicamente las tarjetas que coincidan con la búsqueda
         for (Producto p : productosObs) {
             if (p.getNombre().toLowerCase().contains(query)) {
                 flowPaneCatalogo.getChildren().add(crearTarjetaProducto(p));
@@ -148,11 +149,12 @@ public class CatalogoController {
     }
 
     private void agregarAlCarrito(Producto producto) {
+        // Validamos si hay existencia suficiente del producto
         if (producto.getStock() <= 0) {
             showAlert("Producto Agotado", "Lo sentimos, este producto no cuenta con stock disponible.");
             return;
         }
-
+        // Añadimos el artículo al carrito visual y actualizamos el costo total
         carritoItemsFX.add(producto.getNombre() + " - $" + producto.getPrecio());
         totalCompra += producto.getPrecio();
         if (lblTotal != null) {
@@ -162,22 +164,23 @@ public class CatalogoController {
 
     @FXML
     private void handleConfirmarPedido() {
+        // Validamos que el carrito no esté vacío antes de proceder
         if (carritoItemsFX.isEmpty()) {
             showAlert("Carrito Vacío", "Agrega al menos un producto antes de confirmar.");
             return;
         }
-
+        // Generamos el turno y creamos la instancia del nuevo pedido
         int idTurno = SesionCafeteria.generarSiguienteTurno();
         Pedido nuevoPedido = new Pedido(idTurno, clienteActual, Pedido.estado.Pendiente, totalCompra);
-
+        // Encolamos el pedido en la estructura global de la cocina
         SesionCafeteria.getColaCocina().encolar(nuevoPedido);
-
+        // Registramos la acción en el historial (pila) de transacciones
         SesionCafeteria.getHistorial().apilar(new Accion(
                 Accion.Tipo.VENTA_REGISTRADA, nuevoPedido, nuevoPedido.getEstado(),
                 "Nuevo pedido generado - Turno #" + idTurno + " ($" + String.format("%.2f", nuevoPedido.getTotal()) + ")"));
-
+        // Mostramos alerta de éxito al usuario
         showAlert("Pedido Confirmado", "¡Tu turno es el #" + idTurno + "! Ha sido enviado a cocina correctamente.");
-
+        // Limpiamos el carrito y reiniciamos el total de la compra
         carritoItemsFX.clear();
         totalCompra = 0.0;
         if (lblTotal != null) {
@@ -186,6 +189,7 @@ public class CatalogoController {
     }
 
     private void showAlert(String titulo, String mensaje) {
+        // Ventana emergente genérica para notificaciones al usuario
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);
